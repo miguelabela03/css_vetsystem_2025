@@ -9,7 +9,8 @@
                 <th>Owner Name</th>
                 <th>Owner Surname</th>
                 <th>Appointment Date and Time</th>
-                <th>Appointment Duration</th>
+                <th style="width: 125px;">Appointment Duration</th>
+                <th style="width: 125px;">Appointment Status</th>
                 <th>Actions</th>
             </tr>
         </thead>
@@ -23,6 +24,7 @@
                 <td>{{ appointment.ownerSurname }}</td>
                 <td>{{ appointment.appointmentDate + " - " + appointment.appointmentTime }}</td>
                 <td>{{ appointment.appointmentDuration }}</td>
+                <td>Status</td>
                 <td>
                     <button type="button" class="btn btn-primary me-2">View</button>
                     <button type="button" class="btn btn-success me-2">Update</button>
