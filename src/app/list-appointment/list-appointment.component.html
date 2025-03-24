@@ -1,1 +1,36 @@
-<p>list-appointment works!</p>
+@if (appointments != null && appointments.length > 0) {
+<div class="table-responsive mt-3">
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Patient Name</th>
+                <th>Animal Type</th>
+                <th>Owner Name</th>
+                <th>Owner Surname</th>
+                <th>Appointment Date and Time</th>
+                <th>Appointment Duration</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            @for (appointment of appointments; track appointment.appointmentId) {
+            <tr>
+                <td>{{ appointment.appointmentId }}</td>
+                <td>{{ appointment.patientName }}</td>
+                <td>{{ appointment.animalType }}</td>
+                <td>{{ appointment.ownerName }}</td>
+                <td>{{ appointment.ownerSurname }}</td>
+                <td>{{ appointment.appointmentDate + " - " + appointment.appointmentTime }}</td>
+                <td>{{ appointment.appointmentDuration }}</td>
+                <td>
+                    <button type="button" class="btn btn-primary me-2">View</button>
+                    <button type="button" class="btn btn-success me-2">Update</button>
+                    <button type="button" class="btn btn-danger">Delete</button>
+                </td>
+            </tr>
+            }
+        </tbody>
+    </table>
+</div>
+}
