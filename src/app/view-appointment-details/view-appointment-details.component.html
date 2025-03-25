@@ -1,1 +1,62 @@
-<p>view-appointment-details works!</p>
+@if (appointment) {
+    <div class="card shadow-sm mb-3 rounded">
+        <div class="card-header bg-dark text-white">
+            Appointment ID: {{ appointment.appointmentId }}
+        </div>
+        <div class="card-body">
+            <table class="table table-striped table-bordered">
+                <tbody>
+                    <tr>
+                        <th class="table-header">Patient Name</th>
+                        <td>{{ appointment.patientName }}</td>
+                    </tr>
+                    <tr>
+                        <th class="table-header">Animal Type</th>
+                        <td>{{ appointment.animalType }}</td>
+                    </tr>
+                    <tr>
+                        <th class="table-header">Owner Name</th>
+                        <td>{{ appointment.ownerName }}</td>
+                    </tr>
+                    <tr>
+                        <th class="table-header">Owner Surname</th>
+                        <td>{{ appointment.ownerSurname }}</td>
+                    </tr>
+                    <tr>
+                        <th class="table-header">Owner Contact Number</th>
+                        <td>{{ appointment.ownerContactNumber }}</td>
+                    </tr>
+                    <tr>
+                        <th class="table-header">Owner ID Card Number</th>
+                        <td>{{ appointment.ownerIdCardNumber }}</td>
+                    </tr>
+                    <tr>
+                        <th class="table-header">Appointment Date</th>
+                        <td>{{ appointment.appointmentDate }}</td>
+                    </tr>
+                    <tr>
+                        <th class="table-header">Appointment Time</th>
+                        <td>{{ appointment.appointmentTime }}</td>
+                    </tr>
+                    <tr>
+                        <th class="table-header">Appointment Duration</th>
+                        <td>{{ appointment.appointmentDuration }}</td>
+                    </tr>
+                    <tr>
+                        <th class="table-header">Reason for Appointment</th>
+                        <td>{{ appointment.reasonForAppointment }}</td>
+                    </tr>
+                    <tr>
+                        <th class="table-header">Vet Notes</th>
+                        <td>{{ appointment.vetNotes }}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="card-footer d-flex justify-content-start">
+            <button class="btn btn-dark" (click)="onBackButtonClick()">
+                Back to Appointment List
+            </button>
+        </div>
+    </div>
+}

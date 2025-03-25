@@ -23,4 +23,8 @@ export class AppointmentService {
     getAppointments(): Observable<Appointment[]> {
         return this.httpClient.get<Appointment[]>(this.endpoint);
     }
+
+    getAppointmentById(appointmentId: number): Observable<Appointment> {
+        return this.httpClient.get<Appointment>(this.endpoint + "/" + appointmentId);
+    }
 }

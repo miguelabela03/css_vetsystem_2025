@@ -1,0 +1,5 @@
+.table-header {
+    width: 30%;
+    white-space: nowrap; /* Prevent wrapping */
+    text-align: left; /* Align header text to the left */
+}
