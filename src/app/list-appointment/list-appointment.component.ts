@@ -2,11 +2,12 @@ import { Component, OnInit } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { Appointment } from '../dto/appointment.dto';
 import { AppointmentService } from '../services/appointment.service';
+import { ConvertToStatusPipe } from '../pipes/convert-to-status.pipe';
 
 @Component({
   selector: 'app-list-appointment',
   standalone: true,
-  imports: [RouterLink],
+  imports: [RouterLink, ConvertToStatusPipe],
   templateUrl: './list-appointment.component.html',
   styleUrl: './list-appointment.component.css'
 })

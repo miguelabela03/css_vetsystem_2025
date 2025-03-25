@@ -24,7 +24,7 @@
                 <td>{{ appointment.ownerSurname }}</td>
                 <td>{{ appointment.appointmentDate + " - " + appointment.appointmentTime }}</td>
                 <td>{{ appointment.appointmentDuration }}</td>
-                <td>Status</td>
+                <td>{{ appointment.appointmentDate | convertToStatus:appointment.appointmentTime }}</td>
                 <td>
                     <button type="button" class="btn btn-primary me-2">View</button>
                     <button type="button" class="btn btn-success me-2">Update</button>
