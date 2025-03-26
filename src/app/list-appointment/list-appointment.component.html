@@ -27,7 +27,7 @@
                 <td>{{ appointment.appointmentDate | convertToStatus:appointment.appointmentTime }}</td>
                 <td>
                     <a [routerLink]="['/appointments', appointment.appointmentId]"><button type="button" class="btn btn-outline-primary me-2">View</button></a>
-                    <button type="button" class="btn btn-outline-success me-2">Update</button>
+                    <a [routerLink]="['/update']"><button type="button" class="btn btn-outline-success me-2">Update</button></a>
                     <button type="button" class="btn btn-outline-danger">Delete</button>
                 </td>
             </tr>
