@@ -1,6 +1,6 @@
 @if (appointment) {
     <div class="card shadow-sm mb-3 rounded">
-        <div class="card-header bg-dark text-white">
+        <div class="card-header bg-primary text-white">
             Appointment ID: {{ appointment.appointmentId }}
         </div>
         <div class="card-body">
@@ -54,7 +54,7 @@
             </table>
         </div>
         <div class="card-footer d-flex justify-content-start">
-            <button class="btn btn-dark" (click)="onBackButtonClick()">
+            <button class="btn btn-primary" (click)="onBackButtonClick()">
                 Back to Appointment List
             </button>
         </div>

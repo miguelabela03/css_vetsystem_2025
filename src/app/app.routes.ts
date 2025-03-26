@@ -6,7 +6,7 @@ import { UpdateAppointmentComponent } from './update-appointment/update-appointm
 
 export const routes: Routes = [
     {path: "add", component: AddAppointmentComponent},
-    {path: "update", component: UpdateAppointmentComponent},
+    {path: "update/:appointmentId", component: UpdateAppointmentComponent},
     {path: "appointments", component: ListAppointmentComponent},
     {path: "appointments/:appointmentId", component: ViewAppointmentDetailsComponent},
     {path: "**", redirectTo: "/appointments", pathMatch: "full"}
