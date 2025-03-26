@@ -2,6 +2,7 @@ import { HttpClient, HttpHeaders } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { Observable } from "rxjs";
 import { Appointment } from "../dto/appointment.dto";
+import { AppointmentAddUpdate } from "../dto/appointment-add-update.dto";
 
 @Injectable ({
     providedIn: "root"
@@ -26,5 +27,9 @@ export class AppointmentService {
 
     getAppointmentById(appointmentId: number): Observable<Appointment> {
         return this.httpClient.get<Appointment>(this.endpoint + "/" + appointmentId);
+    }
+
+    addAppointment(appointment: AppointmentAddUpdate): Observable<Appointment> {
+        return this.httpClient.post<Appointment>(this.endpoint, appointment, this.httpHeader)
     }
 }
