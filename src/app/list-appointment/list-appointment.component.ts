@@ -3,6 +3,7 @@ import { RouterLink } from '@angular/router';
 import { Appointment } from '../dto/appointment.dto';
 import { AppointmentService } from '../services/appointment.service';
 import { ConvertToStatusPipe } from '../pipes/convert-to-status.pipe';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-list-appointment',
@@ -31,18 +32,26 @@ export class ListAppointmentComponent implements OnInit {
   }
 
   deleteAppointment(appointmentId: number) {
-    if (confirm('Are you sure you want to delete this appointment?')) {
-      this.appointmentService.deleteAppointment(appointmentId).subscribe({
-        next: () => {
-          this.appointments = this.appointments.filter(function (appointment) {
-            return appointment.appointmentId !== appointmentId;
-          });
-          console.log('Appointment deleted successfully');
-        },
-        error: (err) => {
-          console.error('Error deleting appointment:', err);
-        }
-      });
-    }
+    Swal.fire({
+      title: 'Are you sure?',
+      text: 'Once an appointment is deleted it cannot be retrieved!',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: 'maroon',
+      confirmButtonText: 'Yes, delete it!'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this.appointmentService.deleteAppointment(appointmentId).subscribe({
+          next: () => {
+            this.appointments = this.appointments.filter(({ appointmentId: id }) => id !== appointmentId);
+            Swal.fire('Deleted!', 'The appointment has been deleted.', 'success');
+          },
+          error: (err) => {
+            Swal.fire('Error!', 'Something went wrong while deleting the appointment.', 'error');
+            console.error('Error deleting appointment:', err);
+          }
+        });
+      }
+    });
   }
 }
