@@ -30,7 +30,19 @@ export class ListAppointmentComponent implements OnInit {
     })
   }
 
-  onNotify(message: String) {
-    console.log(message);
+  deleteAppointment(appointmentId: number) {
+    if (confirm('Are you sure you want to delete this appointment?')) {
+      this.appointmentService.deleteAppointment(appointmentId).subscribe({
+        next: () => {
+          this.appointments = this.appointments.filter(function (appointment) {
+            return appointment.appointmentId !== appointmentId;
+          });
+          console.log('Appointment deleted successfully');
+        },
+        error: (err) => {
+          console.error('Error deleting appointment:', err);
+        }
+      });
+    }
   }
 }

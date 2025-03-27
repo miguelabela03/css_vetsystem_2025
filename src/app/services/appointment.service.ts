@@ -36,4 +36,8 @@ export class AppointmentService {
     updateAppointment(appointmentToUpdate: AppointmentAddUpdate, appointmentId: number) {
         return this.httpClient.put<Appointment>(this.endpoint + "/" + appointmentId, appointmentToUpdate, this.httpHeader)
     }
+
+    deleteAppointment(appointmentId: number): Observable<any> {
+        return this.httpClient.delete(this.endpoint + "/" + appointmentId);
+    }
 }

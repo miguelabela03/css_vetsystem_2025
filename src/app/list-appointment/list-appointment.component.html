@@ -28,7 +28,7 @@
                 <td>
                     <a [routerLink]="['/appointments', appointment.appointmentId]"><button type="button" class="btn btn-outline-primary me-2">View</button></a>
                     <a [routerLink]="['/update', appointment.appointmentId]"><button type="button" class="btn btn-outline-success me-2">Update</button></a>
-                    <button type="button" class="btn btn-outline-danger">Delete</button>
+                    <button type="button" class="btn btn-outline-danger" (click)="deleteAppointment(appointment.appointmentId)">Delete</button>
                 </td>
             </tr>
             }
