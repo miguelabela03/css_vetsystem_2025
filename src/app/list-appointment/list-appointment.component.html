@@ -1,5 +1,10 @@
+<div class="d-grid gap-2 d-md-flex justify-content-md-end">
+    <button class="btn btn-success me-md-2" type="button">Export Excel</button>
+    <button class="btn btn-danger" type="button">Export PDF</button>
+</div>
+
 @if (appointments != null && appointments.length > 0) {
-<div class="table-responsive mt-3">
+<div class="table-responsive mt-3 border border-dark">
     <table class="table">
         <thead>
             <tr>
@@ -26,9 +31,12 @@
                 <td>{{ appointment.appointmentDuration }}</td>
                 <td>{{ appointment.appointmentDate | convertToStatus:appointment.appointmentTime }}</td>
                 <td>
-                    <a [routerLink]="['/appointments', appointment.appointmentId]"><button type="button" class="btn btn-outline-primary me-2">View</button></a>
-                    <a [routerLink]="['/update', appointment.appointmentId]"><button type="button" class="btn btn-outline-success me-2">Update</button></a>
-                    <button type="button" class="btn btn-outline-danger" (click)="deleteAppointment(appointment.appointmentId)">Delete</button>
+                    <a [routerLink]="['/appointments', appointment.appointmentId]"><button type="button"
+                            class="btn btn-outline-primary me-2">View</button></a>
+                    <a [routerLink]="['/update', appointment.appointmentId]"><button type="button"
+                            class="btn btn-outline-success me-2">Update</button></a>
+                    <button type="button" class="btn btn-outline-danger"
+                        (click)="deleteAppointment(appointment.appointmentId)">Delete</button>
                 </td>
             </tr>
             }
