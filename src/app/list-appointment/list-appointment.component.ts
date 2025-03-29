@@ -5,6 +5,9 @@ import { AppointmentService } from '../services/appointment.service';
 import { ConvertToStatusPipe } from '../pipes/convert-to-status.pipe';
 import Swal from 'sweetalert2';
 import * as XLSX from 'xlsx';
+import jsPDF from 'jspdf';
+import { applyPlugin } from 'jspdf-autotable';
+import { autoTable } from 'jspdf-autotable';
 
 @Component({
   selector: 'app-list-appointment',
@@ -19,6 +22,7 @@ export class ListAppointmentComponent implements OnInit {
   appointments: Appointment[] = [];
 
   excelFileName = 'Appointments.xlsx';
+  pdfFileName = 'Appointments.pdf';
 
   constructor(private appointmentService: AppointmentService) {
 
@@ -58,36 +62,36 @@ export class ListAppointmentComponent implements OnInit {
     });
   }
 
-  // https://pankaj-kumar.medium.com/how-to-export-data-to-excel-file-in-angular-application-3d88a11900f9
+  // https://stackoverflow.com/questions/50147526/sheetjs-xlsx-cell-styling/69738925
   // This function only exports the data showing within the table
-  // exportToExcel(): void
-  // {
-  //   /* pass here the table id */
-  //   let element = document.getElementById('export-table');
-  //   const ws: XLSX.WorkSheet =XLSX.utils.table_to_sheet(element);
- 
-  //   /* generate workbook and add the worksheet */
-  //   const wb: XLSX.WorkBook = XLSX.utils.book_new();
-  //   XLSX.utils.book_append_sheet(wb, ws, 'Sheet1');
- 
-  //   /* save to file */  
-  //   XLSX.writeFile(wb, this.excelFileName);
-  // }
-
   exportToExcel(): void {
-    // Fetching all data from the API
-    this.appointmentService.getAppointments().subscribe((appointments: Appointment[]) => {
+    /* pass here the table id */
+    let element = document.getElementById('export-table');
+    const ws: XLSX.WorkSheet =XLSX.utils.table_to_sheet(element);
+    console.log(element);
 
-        // Convert data to excel worksheet
-        const ws: XLSX.WorkSheet = XLSX.utils.json_to_sheet(appointments);
+    /* generate workbook and add the worksheet */
+    const wb: XLSX.WorkBook = XLSX.utils.book_new();
 
-        //Create a new workbook and append the worksheet
-        const wb: XLSX.WorkBook = XLSX.utils.book_new();
-        XLSX.utils.book_append_sheet(wb, ws, this.excelFileName);
+    XLSX.utils.book_append_sheet(wb, ws, 'Sheet1');
 
-        // Save to file
-        XLSX.writeFile(wb, this.excelFileName);
-    })
-  };
+    /* save to file */  
+    XLSX.writeFile(wb, this.excelFileName);
+  }
 
+  // exportToExcel(): void {
+  //   // Fetching all data from the API
+  //   this.appointmentService.getAppointments().subscribe((appointments: Appointment[]) => {
+
+  //     // Convert data to excel worksheet
+  //     const ws: XLSX.WorkSheet = XLSX.utils.json_to_sheet(appointments);
+
+  //     //Create a new workbook and append the worksheet
+  //     const wb: XLSX.WorkBook = XLSX.utils.book_new();
+  //     XLSX.utils.book_append_sheet(wb, ws, this.excelFileName);
+
+  //     // Save to file
+  //     XLSX.writeFile(wb, this.excelFileName);
+  //   })
+  // };
 }
