@@ -3,11 +3,13 @@ import { ListAppointmentComponent } from './list-appointment/list-appointment.co
 import { ViewAppointmentDetailsComponent } from './view-appointment-details/view-appointment-details.component';
 import { AddAppointmentComponent } from './add-appointment/add-appointment.component';
 import { UpdateAppointmentComponent } from './update-appointment/update-appointment.component';
+import { SignOutComponent } from './sign-out/sign-out.component';
 
 export const routes: Routes = [
     {path: "add", component: AddAppointmentComponent},
     {path: "update/:appointmentId", component: UpdateAppointmentComponent},
     {path: "appointments", component: ListAppointmentComponent},
     {path: "appointments/:appointmentId", component: ViewAppointmentDetailsComponent},
+    {path: "sign-out", component: SignOutComponent},
     {path: "**", redirectTo: "/appointments", pathMatch: "full"}
 ];
