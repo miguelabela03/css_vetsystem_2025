@@ -6,8 +6,7 @@ import { ConvertToStatusPipe } from '../pipes/convert-to-status.pipe';
 import Swal from 'sweetalert2';
 import * as XLSX from 'xlsx';
 import jsPDF from 'jspdf';
-import { applyPlugin } from 'jspdf-autotable';
-import { autoTable } from 'jspdf-autotable';
+import html2canvas from 'html2canvas';
 
 @Component({
   selector: 'app-list-appointment',
@@ -67,7 +66,7 @@ export class ListAppointmentComponent implements OnInit {
   exportToExcel(): void {
     /* pass here the table id */
     let element = document.getElementById('export-table');
-    const ws: XLSX.WorkSheet =XLSX.utils.table_to_sheet(element);
+    const ws: XLSX.WorkSheet = XLSX.utils.table_to_sheet(element);
     console.log(element);
 
     /* generate workbook and add the worksheet */
@@ -75,7 +74,7 @@ export class ListAppointmentComponent implements OnInit {
 
     XLSX.utils.book_append_sheet(wb, ws, 'Sheet1');
 
-    /* save to file */  
+    /* save to file */
     XLSX.writeFile(wb, this.excelFileName);
   }
 
@@ -94,4 +93,18 @@ export class ListAppointmentComponent implements OnInit {
   //     XLSX.writeFile(wb, this.excelFileName);
   //   })
   // };
+
+  // https://www.geeksforgeeks.org/how-to-export-data-as-pdf-in-angular/
+  exportToPDF() {
+    const data = document.getElementById('export-table');
+    html2canvas(data!).then(canvas => {
+      const imgWidth = 208;
+      const imgHeight = canvas.height * imgWidth / canvas.width;
+      const contentDataURL = canvas.toDataURL('image/png');
+      const pdf = new jsPDF('p', 'mm', 'a4'); // A4 size page of PDF
+      const position = 0;
+      pdf.addImage(contentDataURL, 'PNG', 0, position, imgWidth, imgHeight);
+      pdf.save('exported-file.pdf'); // Save the generated PDF
+    });
+  }
 }
