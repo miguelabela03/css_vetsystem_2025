@@ -1,4 +1,4 @@
-export class UserSessionDto {
+export class UserSession {
     private _jwtToken: string;
     private _username: string;
     private _role: string;

@@ -3,15 +3,15 @@
         <div class="card-header text-dark bg-light">Login</div>
 
         <div class="card-body">
-            <form>
+            <form (ngSubmit)="onSubmit()">
                 <fieldset>
                     <div class="mb-3">
-                        <label for="username" class="form-label">Email address</label>
-                        <input type="email" class="form-control" id="username" aria-describedby="emailHelp">
+                        <label for="username" class="form-label">Email</label>
+                        <input type="email" class="form-control" [(ngModel)]="loginRequest.username" name="username" required>
                     </div>
                     <div class="mb-3">
                         <label for="password" class="form-label">Password</label>
-                        <input type="password" class="form-control" id="password">
+                        <input type="password" class="form-control" [(ngModel)]="loginRequest.password" name="password" required>
                     </div>
                 </fieldset>
 
