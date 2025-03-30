@@ -96,4 +96,8 @@ export class AddAppointmentComponent implements OnInit {
     return ((control!.touched || control!.dirty) && control!.errors);
   }
 
+  getUserRole(): string | null {
+    return this.appointmentService.getUserRole();
+  }
+
 }

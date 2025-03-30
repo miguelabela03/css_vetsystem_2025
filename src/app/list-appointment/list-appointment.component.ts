@@ -7,6 +7,7 @@ import Swal from 'sweetalert2';
 import * as XLSX from 'xlsx';
 import jsPDF from 'jspdf';
 import html2canvas from 'html2canvas';
+import { concat } from 'rxjs';
 
 @Component({
   selector: 'app-list-appointment',
@@ -53,7 +54,7 @@ export class ListAppointmentComponent implements OnInit {
             Swal.fire('Deleted!', 'The appointment has been deleted.', 'success');
           },
           error: (err) => {
-            Swal.fire('Error!', 'Something went wrong while deleting the appointment.', 'error');
+            Swal.fire('Error!', 'Only admins can delete appointments!', 'error');
             console.error('Error deleting appointment:', err);
           }
         });
@@ -106,5 +107,9 @@ export class ListAppointmentComponent implements OnInit {
       pdf.addImage(contentDataURL, 'PNG', 0, position, imgWidth, imgHeight);
       pdf.save('exported-file.pdf'); // Save the generated PDF
     });
+  }
+
+  getUserRole(): string | null {
+    return this.appointmentService.getUserRole();
   }
 }

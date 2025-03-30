@@ -21,6 +21,8 @@
         </thead>
         <tbody>
             @for (appointment of appointments; track appointment.appointmentId) {
+                <!-- Created a variable to store the appintment status (Upcoming/Past) to later use within the @if -->
+                @let appointmentStatus = (appointment.appointmentDate | convertToStatus:appointment.appointmentTime);
             <tr>
                 <td>{{ appointment.appointmentId }}</td>
                 <td>{{ appointment.patientName }}</td>
@@ -29,12 +31,14 @@
                 <td>{{ appointment.ownerSurname }}</td>
                 <td>{{ appointment.appointmentDate + " - " + appointment.appointmentTime }}</td>
                 <td>{{ appointment.appointmentDuration }}</td>
-                <td>{{ appointment.appointmentDate | convertToStatus:appointment.appointmentTime }}</td>
+                <td>{{ appointmentStatus }}</td>
                 <td>
                     <a [routerLink]="['/appointments', appointment.appointmentId]"><button type="button"
                             class="btn btn-outline-primary me-2">View</button></a>
-                    <a [routerLink]="['/update', appointment.appointmentId]"><button type="button"
+                    @if((getUserRole() === "RECEPTIONIST" && appointmentStatus === "Upcoming") || (getUserRole() !== "RECEPTIONIST")) {
+                        <a [routerLink]="['/update', appointment.appointmentId]"><button type="button"
                             class="btn btn-outline-success me-2">Update</button></a>
+                    }
                     <button type="button" class="btn btn-outline-danger"
                         (click)="deleteAppointment(appointment.appointmentId)">Delete</button>
                 </td>

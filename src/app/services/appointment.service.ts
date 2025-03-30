@@ -17,6 +17,10 @@ export class AppointmentService {
     }
 
     token = this.getToken();
+
+    getUserRole(): string | null {
+        return localStorage.getItem('userRole');
+    } 
     
     private httpHeader= {
         headers: new HttpHeaders ({

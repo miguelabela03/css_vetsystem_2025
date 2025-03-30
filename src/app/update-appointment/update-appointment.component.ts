@@ -115,4 +115,12 @@ export class UpdateAppointmentComponent implements OnInit {
     let control = this.appointmentForm.get(controlName);
     return ((control!.touched || control!.dirty) && control!.errors);
   }
+
+  onBackButtonClick() {
+    this.router.navigate(["/appointments"]);
+  }
+
+  getUserRole(): string | null {
+    return this.appointmentService.getUserRole();
+  }
 }

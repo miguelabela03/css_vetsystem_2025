@@ -1,18 +1,22 @@
 <div class="card">
-    <div class="card-header bg-success text-white">Update Appointment</div>
+    <div class="card-header bg-success text-white d-flex justify-content-between align-items-center">
+        <span>Update Appointment</span>
+        <button type="button" class="btn btn-light" (click)="onBackButtonClick()">Cancel</button>
+    </div>    
 
     <div class="card-body">
         <form novalidate [formGroup]="appointmentForm" (ngSubmit)="submitForm()">
             <fieldset>
                 <div class="form-group mb-4">
                     <label for="txtPatientName" class="mb-2">Patient Name</label>
-                    <input type="text" class="form-control" id="txtPatientName" formControlName="patientName" placeholder="Enter patient name">
+                    <input type="text" class="form-control" id="txtPatientName" formControlName="patientName"
+                        placeholder="Enter patient name">
                     @if(shouldProcessControlValidateMessage("patientName")) {
-                        <div class="text-danger">
-                            @if(appointmentForm.get("patientName")!.hasError("required")) {
-                                <div>Patient Name is required!</div>
-                            }
-                        </div>
+                    <div class="text-danger">
+                        @if(appointmentForm.get("patientName")!.hasError("required")) {
+                        <div>Patient Name is required!</div>
+                        }
+                    </div>
                     }
                 </div>
 
@@ -27,75 +31,79 @@
                         <option value="Reptile">Reptile</option>
                     </select>
                     @if(shouldProcessControlValidateMessage("animalType")) {
-                        <div class="text-danger">
-                            @if(appointmentForm.get("animalType")!.hasError("required")) {
-                                <div>Animal Type is required!</div>
-                            }
-                        </div>
+                    <div class="text-danger">
+                        @if(appointmentForm.get("animalType")!.hasError("required")) {
+                        <div>Animal Type is required!</div>
+                        }
+                    </div>
                     }
                 </div>
 
                 <div class="form-group mb-4">
                     <label for="txtOwnerIdCardNumber" class="mb-2">Owner Id Card Number</label>
-                    <input type="text" class="form-control" id="txtOwnerIdCardNumber" formControlName="ownerIdCardNumber" placeholder="Enter owner id card number">
+                    <input type="text" class="form-control" id="txtOwnerIdCardNumber"
+                        formControlName="ownerIdCardNumber" placeholder="Enter owner id card number">
                     @if(shouldProcessControlValidateMessage("ownerIdCardNumber")) {
-                        <div class="text-danger">
-                            @if(appointmentForm.get("ownerIdCardNumber")!.hasError("required")) {
-                                <div>Owner Id Card Number is required!</div>
-                            }
+                    <div class="text-danger">
+                        @if(appointmentForm.get("ownerIdCardNumber")!.hasError("required")) {
+                        <div>Owner Id Card Number is required!</div>
+                        }
 
-                            @if(appointmentForm.get("ownerIdCardNumber")!.hasError("minlength")) {
-                                <div>Owner Id Card Number must be at least 3 characters long!</div>
-                            }
+                        @if(appointmentForm.get("ownerIdCardNumber")!.hasError("minlength")) {
+                        <div>Owner Id Card Number must be at least 3 characters long!</div>
+                        }
 
-                            @if(appointmentForm.get("ownerIdCardNumber")!.hasError("pattern")) {
-                                <div>Owner Id Card Number must have at least two digits and end with a capital letter!</div>
-                            }
-                        </div>
+                        @if(appointmentForm.get("ownerIdCardNumber")!.hasError("pattern")) {
+                        <div>Owner Id Card Number must have at least two digits and end with a capital letter!</div>
+                        }
+                    </div>
                     }
                 </div>
 
                 <div class="form-group mb-4">
                     <label for="txtOwnerName" class="mb-2">Owner Name</label>
-                    <input type="text" class="form-control" id="txtOwnerName" formControlName="ownerName" placeholder="Enter owner name">
+                    <input type="text" class="form-control" id="txtOwnerName" formControlName="ownerName"
+                        placeholder="Enter owner name">
                     @if(shouldProcessControlValidateMessage("ownerName")) {
-                        <div class="text-danger">
-                            @if(appointmentForm.get("ownerName")!.hasError("required")) {
-                                <div>Owner Name is required!</div>
-                            }
-                        </div>
+                    <div class="text-danger">
+                        @if(appointmentForm.get("ownerName")!.hasError("required")) {
+                        <div>Owner Name is required!</div>
+                        }
+                    </div>
                     }
                 </div>
 
                 <div class="form-group mb-4">
                     <label for="txtOwnerSurname" class="mb-2">Owner Surname</label>
-                    <input type="text" class="form-control" id="txtOwnerSurname" formControlName="ownerSurname" placeholder="Enter owner surname">
+                    <input type="text" class="form-control" id="txtOwnerSurname" formControlName="ownerSurname"
+                        placeholder="Enter owner surname">
                     @if(shouldProcessControlValidateMessage("ownerSurname")) {
-                        <div class="text-danger">
-                            @if(appointmentForm.get("ownerSurname")!.hasError("required")) {
-                                <div>Owner Surname is required!</div>
-                            }
-                        </div>
+                    <div class="text-danger">
+                        @if(appointmentForm.get("ownerSurname")!.hasError("required")) {
+                        <div>Owner Surname is required!</div>
+                        }
+                    </div>
                     }
                 </div>
 
                 <div class="form-group mb-4">
                     <label for="txtOwnerContactNumber" class="mb-2">Owner Contact Number</label>
-                    <input type="text" class="form-control" id="txtOwnerContactNumber" formControlName="ownerContactNumber" placeholder="Enter owner contact number">
+                    <input type="text" class="form-control" id="txtOwnerContactNumber"
+                        formControlName="ownerContactNumber" placeholder="Enter owner contact number">
                     @if(shouldProcessControlValidateMessage("ownerContactNumber")) {
-                        <div class="text-danger">
-                            @if(appointmentForm.get("ownerContactNumber")!.hasError("required")) {
-                                <div>Owner Contact Number is required!</div>
-                            }
+                    <div class="text-danger">
+                        @if(appointmentForm.get("ownerContactNumber")!.hasError("required")) {
+                        <div>Owner Contact Number is required!</div>
+                        }
 
-                            @if(appointmentForm.get("ownerContactNumber")!.hasError("minlength")) {
-                                <div>Owner Contact Number must be at least 8 digits!</div>
-                            }
+                        @if(appointmentForm.get("ownerContactNumber")!.hasError("minlength")) {
+                        <div>Owner Contact Number must be at least 8 digits!</div>
+                        }
 
-                            @if(appointmentForm.get("ownerContactNumber")!.hasError("pattern")) {
-                                <div>Owner Contact Number must be positive and must contain only digits!</div>
-                            }
-                        </div>
+                        @if(appointmentForm.get("ownerContactNumber")!.hasError("pattern")) {
+                        <div>Owner Contact Number must be positive and must contain only digits!</div>
+                        }
+                    </div>
                     }
                 </div>
 
@@ -103,11 +111,11 @@
                     <label for="txtAppointmentDate" class="mb-2">Appointment Date</label>
                     <input type="date" class="form-control" id="txtAppointmentDate" formControlName="appointmentDate">
                     @if(shouldProcessControlValidateMessage("appointmentDate")) {
-                        <div class="text-danger">
-                            @if(appointmentForm.get("appointmentDate")!.hasError("required")) {
-                                <div>Appointment Date is required!</div>
-                            }
-                        </div>
+                    <div class="text-danger">
+                        @if(appointmentForm.get("appointmentDate")!.hasError("required")) {
+                        <div>Appointment Date is required!</div>
+                        }
+                    </div>
                     }
                 </div>
 
@@ -115,11 +123,11 @@
                     <label for="txtAppointmentTime" class="mb-2">Appointment Time</label>
                     <input type="time" class="form-control" id="txtAppointmentTime" formControlName="appointmentTime">
                     @if(shouldProcessControlValidateMessage("appointmentTime")) {
-                        <div class="text-danger">
-                            @if(appointmentForm.get("appointmentTime")!.hasError("required")) {
-                                <div>Appointment Time is required!</div>
-                            }
-                        </div>
+                    <div class="text-danger">
+                        @if(appointmentForm.get("appointmentTime")!.hasError("required")) {
+                        <div>Appointment Time is required!</div>
+                        }
+                    </div>
                     }
                 </div>
 
@@ -132,34 +140,39 @@
                         <option value="30">30 mins</option>
                     </select>
                     @if(shouldProcessControlValidateMessage("appointmentDuration")) {
-                        <div class="text-danger">
-                            @if(appointmentForm.get("appointmentDuration")!.hasError("required")) {
-                                <div>Appointment Duration is required!</div>
-                            }
-                        </div>
+                    <div class="text-danger">
+                        @if(appointmentForm.get("appointmentDuration")!.hasError("required")) {
+                        <div>Appointment Duration is required!</div>
+                        }
+                    </div>
                     }
                 </div>
 
                 <div class="form-group mb-4">
                     <label for="txtReasonForAppointment" class="mb-2">Reason for Appointment</label>
-                    <input type="text" class="form-control" id="txtReasonForAppointment" formControlName="reasonForAppointment" placeholder="Enter reason for appointment">
+                    <input type="text" class="form-control" id="txtReasonForAppointment"
+                        formControlName="reasonForAppointment" placeholder="Enter reason for appointment">
                     @if(shouldProcessControlValidateMessage("reasonForAppointment")) {
-                        <div class="text-danger">
-                            @if(appointmentForm.get("reasonForAppointment")!.hasError("required")) {
-                                <div>Reason for Appointment is required!</div>
-                            }
-                        </div>
+                    <div class="text-danger">
+                        @if(appointmentForm.get("reasonForAppointment")!.hasError("required")) {
+                        <div>Reason for Appointment is required!</div>
+                        }
+                    </div>
                     }
                 </div>
 
+                @if(getUserRole() !== "RECEPTIONIST") {
                 <div class="form-group mb-4">
                     <label for="txtVetNotes" class="mb-2">Vet Notes</label>
-                    <input type="text" class="form-control" id="txtVetNotes" formControlName="vetNotes" placeholder="Enter vet notes">
+                    <input type="text" class="form-control" id="txtVetNotes" formControlName="vetNotes"
+                        placeholder="Enter vet notes">
                 </div>
+                }
             </fieldset>
 
             <div class="mt-3">
-                <button type="submit" class="btn btn-success" [disabled]="!appointmentForm.valid">Update Appointment</button>
+                <button type="submit" class="btn btn-success" [disabled]="!appointmentForm.valid">Update
+                    Appointment</button>
             </div>
         </form>
     </div>
