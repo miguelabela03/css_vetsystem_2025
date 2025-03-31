@@ -22,7 +22,6 @@ const detailsCanMatch: CanMatchFn = (route, segments) => {
         return true;
     }
 
-    alert('Access Denied: You are not authorized to view this page!');
     return false;
 };
 
@@ -33,5 +32,5 @@ export const routes: Routes = [
     {path: "appointments", component: ListAppointmentComponent, canMatch: [detailsCanMatch]},
     {path: "appointments/:appointmentId", component: ViewAppointmentDetailsComponent, canMatch: [detailsCanMatch]},
     {path: "sign-out", component: SignOutComponent, canMatch: [detailsCanMatch]},
-    {path: "**", redirectTo: "/appointments", pathMatch: "full"}
+    {path: "**", redirectTo: "/login", pathMatch: "full"}
 ];

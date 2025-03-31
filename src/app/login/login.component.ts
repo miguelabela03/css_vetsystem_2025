@@ -1,33 +1,46 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Login } from '../dto/login.dto';
 import { AuthorisationService } from '../services/authorisation.service';
 import { Router } from '@angular/router';
 import { UserSession } from '../dto/user-session.dto';
-import { FormsModule } from '@angular/forms';
+import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-login',
   standalone: true,
-  imports: [FormsModule],
+  imports: [ReactiveFormsModule],
   templateUrl: './login.component.html',
   styleUrl: './login.component.css'
 })
 
-export class LoginComponent {
-  loginRequest: Login = new Login('', '');
+export class LoginComponent implements OnInit{
+  loginForm!: FormGroup;
 
-  constructor(private authoService: AuthorisationService, private router: Router) {
+  constructor(private formBuilder: FormBuilder, private authoService: AuthorisationService, private router: Router) {
 
   }
 
-  onSubmit(): void {
-    this.authoService.requestLogin(this.loginRequest).subscribe({
-      next: (session: UserSession) => {
-        // Storing the token and user role for later use within the local storage
-        localStorage.setItem('jwtToken', session.jwtToken);
-        localStorage.setItem('userRole', session.role);
+  ngOnInit(): void {
+    this.loginForm = this.formBuilder.group({
+      password: ['', [Validators.required]],
+      username: ['', [Validators.required]],
+    });
+  }
 
+  onSubmit() {
+    // console.log(this.loginForm.value);
+    const loginDetails = this.loginForm.value;
+    // console.log("Login Details" + loginDetails);
+    this.authoService.requestLogin(loginDetails).subscribe({
+      next: (response) => {
+        Swal.fire({
+          title: 'Login Successful',
+          text: 'You are logged in.',
+          icon: 'success',
+          confirmButtonColor: 'green',
+          confirmButtonText: 'OK'
+        });
         // If the user credentials are approved, they will be redirected to the appointments list page
         this.router.navigate(['/appointments']);
       },
@@ -42,5 +55,10 @@ export class LoginComponent {
         });
       }
     });
+  }
+
+  shouldProcessControlValidateMessage(controlName: string) {
+    let control = this.loginForm.get(controlName);
+    return ((control!.touched || control!.dirty) && control!.errors);
   }
 }

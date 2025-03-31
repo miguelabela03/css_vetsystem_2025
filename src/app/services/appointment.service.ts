@@ -25,6 +25,7 @@ export class AppointmentService {
     private httpHeader= {
         headers: new HttpHeaders ({
             "Content-Type": "application/json",
+            "Accept": "application/json",
             "Authorization": "Bearer " + this.token
         })
     }

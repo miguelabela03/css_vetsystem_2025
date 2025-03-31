@@ -2,7 +2,7 @@ export class Login {
     private _password: string;
     private _username: string;
 
-    constructor(username: string, password: string) {
+    constructor(password: string, username: string) {
         this._password = password;
         this._username = username;
     }
