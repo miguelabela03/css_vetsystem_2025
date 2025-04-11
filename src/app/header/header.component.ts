@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { RouterLink, RouterLinkActive } from '@angular/router';
+import { Router, RouterLink, RouterLinkActive } from '@angular/router';
 import { AppointmentService } from '../services/appointment.service';
 
 @Component({
@@ -13,11 +13,15 @@ import { AppointmentService } from '../services/appointment.service';
 export class HeaderComponent {
   title: string = "Vet Appointment System";
 
-  constructor(private appointmentService: AppointmentService) {
+  constructor(private appointmentService: AppointmentService, private router: Router) {
 
   }
 
   getUserRole(): string | null {
     return this.appointmentService.getUserRole();
+  }
+
+  isLogin(): boolean {
+    return this.router.url !== "/login";
   }
 }

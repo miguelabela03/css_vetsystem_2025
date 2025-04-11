@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { RouterLink } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { Appointment } from '../dto/appointment.dto';
 import { AppointmentService } from '../services/appointment.service';
 import { ConvertToStatusPipe } from '../pipes/convert-to-status.pipe';
@@ -24,7 +24,7 @@ export class ListAppointmentComponent implements OnInit {
   excelFileName = 'Appointments.xlsx';
   pdfFileName = 'Appointments.pdf';
 
-  constructor(private appointmentService: AppointmentService) {
+  constructor(private appointmentService: AppointmentService, private router: Router) {
 
   }
 
@@ -56,6 +56,7 @@ export class ListAppointmentComponent implements OnInit {
           error: (err) => {
             Swal.fire('Error!', 'Only admins can delete appointments!', 'error');
             console.error('Error deleting appointment:', err);
+            console.log(this.appointmentService.deleteAppointment(appointmentId));
           }
         });
       }
@@ -111,5 +112,28 @@ export class ListAppointmentComponent implements OnInit {
 
   getUserRole(): string | null {
     return this.appointmentService.getUserRole();
+  }
+
+  enabaleDisableUpdateBtn(appointmentStatus: string): boolean {
+    if (this.getUserRole() === "RECEPTIONIST" && appointmentStatus !== "Upcoming") {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  showUpdateForm(appointmentId: number, appointmentStatus: string) {
+    if (!this.enabaleDisableUpdateBtn(appointmentStatus)) {
+      this.router.navigate(['/update', appointmentId]);
+    }
+  }
+  
+
+  enabaleDisableDeleteBtn(): boolean {
+    if (this.getUserRole() !== "ADMIN") {
+      return true;
+    } else {
+      return false;
+    }
   }
 }

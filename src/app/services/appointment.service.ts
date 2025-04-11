@@ -12,45 +12,39 @@ import { AuthorisationService } from "./authorisation.service";
 export class AppointmentService {
     endpoint: string = "http://localhost:8080/appointment";
 
-    getToken(): string | null {
-        return localStorage.getItem('jwtToken');
+    getHeaders() {
+        return new HttpHeaders ({
+            "Content-Type": "application/json",
+            "Accept": "application/json",
+            "Authorization": "Bearer " + localStorage.getItem('jwtToken')
+        });
     }
-
-    token = this.getToken();
 
     getUserRole(): string | null {
         return localStorage.getItem('userRole');
     } 
-    
-    private httpHeader= {
-        headers: new HttpHeaders ({
-            "Content-Type": "application/json",
-            "Accept": "application/json",
-            "Authorization": "Bearer " + this.token
-        })
-    }
 
     constructor(private httpClient: HttpClient) {
 
     }
 
     getAppointments(): Observable<Appointment[]> {
-        return this.httpClient.get<Appointment[]>(this.endpoint, this.httpHeader);
+        return this.httpClient.get<Appointment[]>(this.endpoint, {headers: this.getHeaders()});
     }
 
     getAppointmentById(appointmentId: number): Observable<Appointment> {
-        return this.httpClient.get<Appointment>(this.endpoint + "/" + appointmentId, this.httpHeader);
+        return this.httpClient.get<Appointment>(this.endpoint + "/" + appointmentId, {headers: this.getHeaders()});
     }
 
     addAppointment(appointment: AppointmentAddUpdate): Observable<Appointment> {
-        return this.httpClient.post<Appointment>(this.endpoint, appointment, this.httpHeader)
+        return this.httpClient.post<Appointment>(this.endpoint, appointment, {headers: this.getHeaders()})
     }
 
     updateAppointment(appointmentToUpdate: AppointmentAddUpdate, appointmentId: number) {
-        return this.httpClient.put<Appointment>(this.endpoint + "/" + appointmentId, appointmentToUpdate, this.httpHeader)
+        return this.httpClient.put<Appointment>(this.endpoint + "/" + appointmentId, appointmentToUpdate, {headers: this.getHeaders()})
     }
 
     deleteAppointment(appointmentId: number): Observable<any> {
-        return this.httpClient.delete(this.endpoint + "/" + appointmentId, this.httpHeader);
+        return this.httpClient.delete(this.endpoint + "/" + appointmentId, {headers: this.getHeaders()});
     }
 }

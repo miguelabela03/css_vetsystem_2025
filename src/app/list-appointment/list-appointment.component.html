@@ -35,14 +35,11 @@
                 <td>
                     <a [routerLink]="['/appointments', appointment.appointmentId]"><button type="button"
                             class="btn btn-outline-primary me-2">View</button></a>
-                    @if((getUserRole() === "RECEPTIONIST" && appointmentStatus === "Upcoming") || (getUserRole() !== "RECEPTIONIST")) {
-                    <a [routerLink]="['/update', appointment.appointmentId]"><button type="button"
-                            class="btn btn-outline-success me-2">Update</button></a>
-                    }
-                    @if(getUserRole() === "ADMIN") {
+                    <button type="button" class="btn btn-outline-success me-2" 
+                            [disabled]="enabaleDisableUpdateBtn(appointmentStatus)"
+                            (click)="showUpdateForm(appointment.appointmentId, appointmentStatus)">Update</button>
                     <button type="button" class="btn btn-outline-danger"
-                        (click)="deleteAppointment(appointment.appointmentId)">Delete</button>
-                    }
+                        (click)="deleteAppointment(appointment.appointmentId)" [disabled]="enabaleDisableDeleteBtn()">Delete</button>
                 </td>
             </tr>
             }

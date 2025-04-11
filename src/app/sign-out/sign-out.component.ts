@@ -16,6 +16,8 @@ export class SignOutComponent {
   }
 
   onSignOut() {
+    localStorage.clear();
+
     this.router.navigate(["/login"]);
   }
 }
