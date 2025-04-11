@@ -7,6 +7,7 @@ import Swal from 'sweetalert2';
 import * as XLSX from 'xlsx';
 import jsPDF from 'jspdf';
 import html2canvas from 'html2canvas';
+import autoTable from 'jspdf-autotable';
 import { concat } from 'rxjs';
 import * as ExcelJS from 'exceljs';
 import * as FileSaver from 'file-saver';
@@ -22,9 +23,6 @@ import * as FileSaver from 'file-saver';
 export class ListAppointmentComponent implements OnInit {
 
   appointments: Appointment[] = [];
-
-  // excelFileName = 'Appointments.xlsx';
-  pdfFileName = 'Appointments.pdf';
 
   constructor(private appointmentService: AppointmentService, private router: Router) {
 
@@ -162,19 +160,49 @@ export class ListAppointmentComponent implements OnInit {
   //   })
   // };
 
-  // https://www.geeksforgeeks.org/how-to-export-data-as-pdf-in-angular/
+  // This function will export the table data with background colour formatting
   exportToPDF() {
-    const data = document.getElementById('export-table');
-    html2canvas(data!).then(canvas => {
-      const imgWidth = 208;
-      const imgHeight = canvas.height * imgWidth / canvas.width;
-      const contentDataURL = canvas.toDataURL('image/png');
-      const pdf = new jsPDF('p', 'mm', 'a4'); // A4 size page of PDF
-      const position = 0;
-      pdf.addImage(contentDataURL, 'PNG', 0, position, imgWidth, imgHeight);
-      pdf.save('appointments.pdf'); // Save the generated PDF
+    const doc = new jsPDF();
+
+    const tableElement = document.getElementById('export-table') as HTMLTableElement;
+    if (!tableElement) return; // if the element is not found the process will end here
+
+    autoTable(doc, { // autoTable reads the DOM table and converts it into a formatted table inside the PDF
+      html: tableElement,
+      styles: {
+        halign: 'left',
+        valign: 'middle',
+        fontSize: 9,
+      },
+      didParseCell: function (data) {
+        if (data.section === 'body') { // body used to skip the header
+          const appointmentStatusTxt = String(data.row.cells[7]?.text).trim(); // Check the 8th column - appointmentStatus
+      
+          if (appointmentStatusTxt === 'Upcoming') {
+            data.cell.styles.fillColor = [212, 237, 218]; // light green
+          } else {
+            data.cell.styles.fillColor = [248, 215, 218]; // light red
+          }
+        }
+      }
     });
+
+    doc.save('appointments.pdf');
   }
+
+  // https://www.geeksforgeeks.org/how-to-export-data-as-pdf-in-angular/
+  // exportToPDF() {
+  //   const data = document.getElementById('export-table');
+  //   html2canvas(data!).then(canvas => {
+  //     const imgWidth = 208;
+  //     const imgHeight = canvas.height * imgWidth / canvas.width;
+  //     const contentDataURL = canvas.toDataURL('image/png');
+  //     const pdf = new jsPDF('p', 'mm', 'a4'); // A4 size page of PDF
+  //     const position = 0;
+  //     pdf.addImage(contentDataURL, 'PNG', 0, position, imgWidth, imgHeight);
+  //     pdf.save('appointments.pdf'); // Save the generated PDF
+  //   });
+  // }
 
   getUserRole(): string | null {
     return this.appointmentService.getUserRole();
