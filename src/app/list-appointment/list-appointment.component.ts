@@ -172,7 +172,7 @@ export class ListAppointmentComponent implements OnInit {
       const pdf = new jsPDF('p', 'mm', 'a4'); // A4 size page of PDF
       const position = 0;
       pdf.addImage(contentDataURL, 'PNG', 0, position, imgWidth, imgHeight);
-      pdf.save('exported-file.pdf'); // Save the generated PDF
+      pdf.save('appointments.pdf'); // Save the generated PDF
     });
   }
 
