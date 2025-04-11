@@ -72,7 +72,7 @@ export class UpdateAppointmentComponent implements OnInit {
   // Fetching and converting the date string from the backend
   formatDate(formDate: string): string {
     if (!formDate) return ''; // Handle empty values gracefully
-    console.log(formDate);
+    //console.log(formDate);
   
     // Split the date assuming it's in "dd/MM/yyyy" format
     const parts = formDate.split('/');

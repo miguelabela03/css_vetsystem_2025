@@ -8,11 +8,9 @@ import { AppointmentService } from "../services/appointment.service";
 })
 export class RouteGuard implements CanActivate {
 
-    constructor(
-        private authService: AuthorisationService,
-        private appointmentService: AppointmentService,
-        private router: Router
-    ) { }
+    constructor(private authService: AuthorisationService, private appointmentService: AppointmentService, private router: Router) {
+
+    }
 
     canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): boolean | UrlTree {
         const url = state.url;
@@ -20,7 +18,7 @@ export class RouteGuard implements CanActivate {
         let firstSegment = pathSegments[0];
 
         const isAuthenticated = this.authService.isAuthenticated();
-        console.log(isAuthenticated);
+        // console.log(isAuthenticated);
 
         if (!isAuthenticated) {
             // Allow login page access if unauthenticated
@@ -38,7 +36,7 @@ export class RouteGuard implements CanActivate {
         }
 
         if (userRole === 'VET') {
-            if(firstSegment === 'add') {
+            if (firstSegment === 'add') {
                 return this.router.createUrlTree(['/appointments']);
             }
             else if (firstSegment === 'delete') {
@@ -51,15 +49,6 @@ export class RouteGuard implements CanActivate {
             if (firstSegment === 'delete') {
                 return this.router.createUrlTree(['/appointments']);
             }
-
-            // if (url.includes('/update')) {
-            //     const appointmentId = route.params['id'];
-            //     if (appointmentId) {
-            //         const appointment = this.appointmentService.getAppointmentById(appointmentId);
-            //         const currentDateTime = new Date();
-
-            //     }
-            // }
 
             return true;
         }
