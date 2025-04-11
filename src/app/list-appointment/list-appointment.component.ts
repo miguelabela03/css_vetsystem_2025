@@ -8,6 +8,8 @@ import * as XLSX from 'xlsx';
 import jsPDF from 'jspdf';
 import html2canvas from 'html2canvas';
 import { concat } from 'rxjs';
+import * as ExcelJS from 'exceljs';
+import * as FileSaver from 'file-saver';
 
 @Component({
   selector: 'app-list-appointment',
@@ -21,7 +23,7 @@ export class ListAppointmentComponent implements OnInit {
 
   appointments: Appointment[] = [];
 
-  excelFileName = 'Appointments.xlsx';
+  // excelFileName = 'Appointments.xlsx';
   pdfFileName = 'Appointments.pdf';
 
   constructor(private appointmentService: AppointmentService, private router: Router) {
@@ -63,23 +65,87 @@ export class ListAppointmentComponent implements OnInit {
     });
   }
 
-  // https://stackoverflow.com/questions/50147526/sheetjs-xlsx-cell-styling/69738925
-  // This function only exports the data showing within the table
   exportToExcel(): void {
-    /* pass here the table id */
-    let element = document.getElementById('export-table');
-    const ws: XLSX.WorkSheet = XLSX.utils.table_to_sheet(element);
-    console.log(element);
+    const workbook = new ExcelJS.Workbook();
+    const worksheet = workbook.addWorksheet('Appointments');
 
-    /* generate workbook and add the worksheet */
-    const wb: XLSX.WorkBook = XLSX.utils.book_new();
+    const table = document.getElementById('export-table') as HTMLTableElement;
+    if (!table) return;
 
-    XLSX.utils.book_append_sheet(wb, ws, 'Sheet1');
+    const rows = Array.from(table.rows);
 
-    /* save to file */
-    XLSX.writeFile(wb, this.excelFileName);
+    // Add header row
+    const headerCells = Array.from(rows[0].cells).map(cell => cell.innerText);
+    worksheet.addRow(headerCells);
+
+    // Add data rows
+    for (let i = 1; i < rows.length; i++) {
+      const row = rows[i];
+      const cellValues = Array.from(row.cells).map(cell => cell.innerText);
+      const appointmentStatus = cellValues.find(v => v.toLowerCase() === 'upcoming');
+
+      const excelRow = worksheet.addRow(cellValues);
+
+      if (appointmentStatus) {
+        // Apply green background to all cells in this row
+        excelRow.eachCell(cell => {
+          cell.fill = {
+            type: 'pattern',
+            pattern: 'solid',
+            fgColor: { argb: 'C6EFCE' } // light green
+          };
+        });
+      } else {
+        excelRow.eachCell(cell => {
+          cell.fill = {
+            type: 'pattern',
+            pattern: 'solid',
+            fgColor: { argb: 'FFFFCCCC' } // light red
+          };
+        });
+      }
+    }
+
+    // Auto width for each column
+    worksheet.columns.forEach((column, colIndex) => {
+      let maxLength = 10; // Default minimum width
+
+      worksheet.eachRow({ includeEmpty: true }, (row, rowIndex) => {
+        const cell = row.getCell(colIndex + 1); // +1 because ExcelJS is 1-based indexing
+        const cellValue = cell.value?.toString() ?? '';
+        maxLength = Math.max(maxLength, cellValue.length);
+      });
+
+      column.width = maxLength + 2; // Adjust width by adding a small buffer
+    });
+
+    // Download the Excel file
+    workbook.xlsx.writeBuffer().then(buffer => {
+      const blob = new Blob([buffer], {
+        type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
+      });
+      FileSaver.saveAs(blob, 'appointments.xlsx');
+    });
   }
 
+  // https://stackoverflow.com/questions/50147526/sheetjs-xlsx-cell-styling/69738925
+  // This function only exports the data showing within the table, without formatting
+  // exportToExcel(): void {
+  //   /* pass here the table id */
+  //   let element = document.getElementById('export-table');
+  //   const ws: XLSX.WorkSheet = XLSX.utils.table_to_sheet(element);
+  //   console.log(element);
+
+  //   /* generate workbook and add the worksheet */
+  //   const wb: XLSX.WorkBook = XLSX.utils.book_new();
+
+  //   XLSX.utils.book_append_sheet(wb, ws, 'Sheet1');
+
+  //   /* save to file */
+  //   XLSX.writeFile(wb, this.excelFileName);
+  // }
+
+  // This function shows the data from the api, without formatting
   // exportToExcel(): void {
   //   // Fetching all data from the API
   //   this.appointmentService.getAppointments().subscribe((appointments: Appointment[]) => {
@@ -127,7 +193,7 @@ export class ListAppointmentComponent implements OnInit {
       this.router.navigate(['/update', appointmentId]);
     }
   }
-  
+
 
   enabaleDisableDeleteBtn(): boolean {
     if (this.getUserRole() !== "ADMIN") {
